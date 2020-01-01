@@ -20,7 +20,7 @@ namespace VideoShell.Views
             InitializeComponent();
 
             MasterBehavior = MasterBehavior.Popover;
-            Detail = new NavigationPage(new VideosPage());
+            Detail = new NavigationPage(new VideosView());
             //MenuPages.Add((int)MenuItemType.Videos, (NavigationPage)Detail);
         }
 
@@ -31,7 +31,7 @@ namespace VideoShell.Views
                 switch (id)
                 {
                     case (int)MenuItemType.Videos:
-                        MenuPages.Add(id, new NavigationPage(new VideosPage()));
+                        MenuPages.Add(id, new NavigationPage(new VideosView()));
                         break;
                     case (int)MenuItemType.Browse:
                         MenuPages.Add(id, new NavigationPage(new ItemsPage()));

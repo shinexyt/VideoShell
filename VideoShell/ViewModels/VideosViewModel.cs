@@ -7,12 +7,14 @@ using Xamarin.Forms;
 
 using VideoShell.Models;
 using VideoShell.Views;
+using VideoShell.ViewModels.Base;
 
 namespace VideoShell.ViewModels
 {
-    public class VideosViewModel : VideoBaseViewModel
+    public class VideosViewModel : ViewModelBase
     {
-        public ObservableCollection<Video> Videos { get; set; }
+        public ObservableCollection<Video> Videos { get; }
+        public string Title { get; set; }
         public Command LoadVideosCommand { get; set; }
 
         public VideosViewModel()
@@ -24,6 +26,9 @@ namespace VideoShell.ViewModels
 
         async Task ExecuteLoadVideosCommand()
         {
+            if (Videos.Count > 0)
+                return;
+
             if (IsBusy)
                 return;
 

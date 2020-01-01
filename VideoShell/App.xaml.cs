@@ -3,6 +3,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using VideoShell.Services;
 using VideoShell.Views;
+using VideoShell.ViewModels.Base;
 
 namespace VideoShell
 {
@@ -12,7 +13,7 @@ namespace VideoShell
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<YaoShe92DataStore>();
+            //DependencyService.Register<YaoShe92DataStore>();
             DependencyService.Register<MockDataStore>();
             
             MainPage = new MainPage();

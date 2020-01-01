@@ -6,13 +6,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using VideoShell.Models;
 using VideoShell.Services;
+using VideoShell.ViewModels.Base;
 using Xamarin.Forms;
 
 namespace VideoShell.ViewModels
 {
-    public class VideoDetailViewModel : VideoBaseViewModel
+    public class VideoDetailViewModel : ViewModelBase
     {
         private string originalVideoUrl;
+        public string Title { get; set; }
+
+        private VideoSource videoUrl;
+        public VideoSource VideoUrl
+        {
+            get
+            {
+                return videoUrl;
+            }
+            set
+            {
+                videoUrl = value;
+                RaisePropertyChanged(() => VideoUrl);
+            }
+        }
         public Command GetTrueVideoUrlCommand { get; set; }
         public VideoDetailViewModel(Video video)
         {

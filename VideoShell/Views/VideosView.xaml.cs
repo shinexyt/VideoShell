@@ -16,15 +16,12 @@ namespace VideoShell.Views
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
-    public partial class VideosPage : ContentPage
+    public partial class VideosView : ContentPage
     {
-        VideosViewModel viewModel;
 
-        public VideosPage()
+        public VideosView()
         {
             InitializeComponent();
-
-            BindingContext = viewModel = new VideosViewModel();
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
@@ -37,14 +34,6 @@ namespace VideoShell.Views
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (viewModel.Videos.Count == 0)
-                viewModel.LoadVideosCommand.Execute(null);
         }
     }
 }

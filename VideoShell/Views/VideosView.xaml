@@ -4,7 +4,10 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="VideoShell.Views.VideosPage"
+             x:Class="VideoShell.Views.VideosView"
+             xmlns:behaviors="clr-namespace:VideoShell.Behaviors;assembly=VideoShell" 
+             xmlns:viewModelBase="clr-namespace:VideoShell.ViewModels.Base;assembly=VideoShell"
+             viewModelBase:ViewModelLocator.AutoWireViewModel="true"
              Title="{Binding Title}"
              x:Name="VideoItemsPage">
 
@@ -39,5 +42,7 @@
             </ListView.ItemTemplate>
         </ListView>
     </StackLayout>
-
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing"	Command="{Binding LoadVideosCommand}" />
+    </ContentPage.Behaviors>
 </ContentPage>
