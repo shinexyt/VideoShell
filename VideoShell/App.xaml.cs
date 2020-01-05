@@ -4,6 +4,13 @@ using Xamarin.Forms.Xaml;
 using VideoShell.Services;
 using VideoShell.Views;
 using VideoShell.ViewModels.Base;
+using System.Composition.Hosting;
+using System.Reflection;
+using System.Composition;
+using VideoShell.ViewModels;
+using System.Composition.Convention;
+using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extension.Abstraction;
 
 namespace VideoShell
 {
@@ -13,9 +20,6 @@ namespace VideoShell
         public App()
         {
             InitializeComponent();
-            //DependencyService.Register<YaoShe92DataStore>();
-            DependencyService.Register<MockDataStore>();
-            
             MainPage = new MainPage();
         }
 

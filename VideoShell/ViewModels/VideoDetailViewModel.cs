@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using VideoShell.Extension.Abstraction.Models;
 using VideoShell.Models;
 using VideoShell.Services;
 using VideoShell.ViewModels.Base;
@@ -44,7 +45,7 @@ namespace VideoShell.ViewModels
             IsBusy = true;
             try
             {
-                VideoUrl = VideoSource.FromUri(await GetTrueVideoUrl(originalVideoUrl));
+                VideoUrl = VideoSource.FromUri(await DataSource.GetTrueVideoUrl(originalVideoUrl));
             }
             catch (Exception ex)
             {
@@ -55,11 +56,6 @@ namespace VideoShell.ViewModels
                 IsBusy = false;
             }
         }
-        private async Task<string> GetTrueVideoUrl(string url)
-        {
-            url = url.Replace("videos", "embed");
-            var doc = await YaoShe92DataStore.HtmlWeb.LoadFromWebAsync(url);
-            return Regex.Match(doc.DocumentNode.InnerHtml, @"https.*embed=true").Value;
-        }
+        
     }
 }

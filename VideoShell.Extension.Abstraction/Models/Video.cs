@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VideoShell.Models
+namespace VideoShell.Extension.Abstraction.Models
 {
     public class Video
     {

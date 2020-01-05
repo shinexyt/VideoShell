@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,14 +9,16 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.XPath;
-using VideoShell.Models;
+using VideoShell.Extension.Abstraction;
+using VideoShell.Extension.Abstraction.Models;
 
-namespace VideoShell.Services
+namespace VideoShell.Extension.YaoShe92
 {
+    [Export(typeof(IDataSource<Video>))]
     public class YaoShe92DataStore : IDataSource<Video>
     {
         List<Video> videos;
-        public static HtmlWeb HtmlWeb { get; } = new HtmlWeb();
+
         public YaoShe92DataStore()
         {
 
@@ -26,12 +29,18 @@ namespace VideoShell.Services
                 videos = await GetDataAsync("https://yaoshe92.com/latest-updates/");
             return await Task.FromResult(videos);
         }
+        public async Task<string> GetTrueVideoUrl(string url)
+        {
+            url = url.Replace("videos", "embed");
+            var doc = await Utility.HtmlWeb.LoadFromWebAsync(url);
+            return Regex.Match(doc.DocumentNode.InnerHtml, @"https.*embed=true").Value;
+        }
         private async Task<List<Video>> GetDataAsync(string uri)
         {
             var list = new List<Video>();
             try
             {
-                var doc = await HtmlWeb.LoadFromWebAsync(uri);
+                var doc = await Utility.HtmlWeb.LoadFromWebAsync(uri);
                 var nodes = doc.DocumentNode.SelectNodes("//div[@class='list-videos']//div[@class='item  ']/a");
                 foreach (var item in nodes)
                 {

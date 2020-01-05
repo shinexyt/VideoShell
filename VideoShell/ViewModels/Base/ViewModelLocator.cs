@@ -39,7 +39,7 @@ namespace VideoShell.ViewModels.Base
             // Services - by default, TinyIoC will register interface registrations as singletons.
             _container.Register<INavigationService, NavigationService>();
             _container.Register<IDialogService, DialogService>();
-            _container.Register<IDataSource<Video>, YaoShe92DataStore>();
+            //_container.Register<IDataSource<Video>, YaoShe92DataStore>();
         }
 
         public static void RegisterSingleton<TInterface, T>() where TInterface : class where T : class, TInterface
