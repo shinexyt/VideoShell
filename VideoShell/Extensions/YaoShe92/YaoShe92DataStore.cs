@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.XPath;
@@ -31,9 +32,19 @@ namespace VideoShell.Extension.YaoShe92
         }
         public async Task<string> GetTrueVideoUrl(string url)
         {
-            url = url.Replace("videos", "embed");
-            var doc = await Utility.HtmlWeb.LoadFromWebAsync(url);
-            return Regex.Match(doc.DocumentNode.InnerHtml, @"https.*embed=true").Value;
+            ObjectCache cache = MemoryCache.Default;
+            string trueVideoUrl = cache[url] as string;
+            if (trueVideoUrl == null)
+            {
+                var doc = await Utility.HtmlWeb.LoadFromWebAsync(url.Replace("videos", "embed"));
+                trueVideoUrl = Regex.Match(doc.DocumentNode.InnerHtml, @"https.*embed=true").Value;
+                cache.Set(url, trueVideoUrl, new CacheItemPolicy());
+                return trueVideoUrl;
+            }
+            else
+                return trueVideoUrl;
+
+
         }
         private async Task<List<Video>> GetDataAsync(string uri)
         {
