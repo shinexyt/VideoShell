@@ -5,7 +5,7 @@ using System.Text;
 
 namespace VideoShell.Extension.Abstraction
 {
-    public class Utility
+    public static class Utility
     {
         public static HtmlWeb HtmlWeb { get; } = new HtmlWeb();
     }

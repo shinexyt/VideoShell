@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Composition.Hosting;
+using System.Reflection;
+using VideoShell.Extension.Abstraction;
+using VideoShell.Extension.Abstraction.Models;
+using System.Composition;
+using VideoShell.Extensions.Abstraction;
 
 namespace VideoShell.Views
 {
@@ -14,10 +20,22 @@ namespace VideoShell.Views
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
         List<HomeMenuItem> menuItems;
+
+        [ImportMany]
+        public IEnumerable<Lazy<IDataSource<Video>, WebMetadataModel>> DataSources { get; set; }
+
         public MenuPage()
         {
             InitializeComponent();
-
+            using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
+            {
+                host.SatisfyImports(this);
+            }
+            foreach (var item in DataSources)
+            {
+                WebInstance.Url = item.Metadata.DefaultUrl;
+                WebInstance.DataSource = item.Value;
+            }
             menuItems = new List<HomeMenuItem>
             {
                 new HomeMenuItem {Id = MenuItemType.Videos, Title="Latest Videos" },

@@ -7,6 +7,7 @@ using System.Composition;
 using VideoShell.Extension.Abstraction.Models;
 using System.Composition.Hosting;
 using System.Reflection;
+using VideoShell.Extensions.Abstraction;
 
 namespace VideoShell.ViewModels.Base
 {
@@ -14,7 +15,7 @@ namespace VideoShell.ViewModels.Base
     {
         protected IDialogService DialogService { get; }
         protected INavigationService NavigationService { get; }
-        protected IDataSource<Video> DataSource { get;  }
+        protected IDataSource<Video> DataSource => WebInstance.DataSource;
         private bool _isBusy;
 
         public bool IsBusy
@@ -35,10 +36,10 @@ namespace VideoShell.ViewModels.Base
         {
             DialogService = ViewModelLocator.Resolve<IDialogService>();
             NavigationService = ViewModelLocator.Resolve<INavigationService>();
-            using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
-            {
-                DataSource = host.GetExport<IDataSource<Video>>();
-            }
+            //using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
+            //{
+            //    DataSource = host.GetExport<IDataSource<Video>>();
+            //}
         }
 
         public virtual Task InitializeAsync(object navigationData)

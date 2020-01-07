@@ -12,22 +12,23 @@ using System.Threading.Tasks;
 using System.Xml.XPath;
 using VideoShell.Extension.Abstraction;
 using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction;
 
 namespace VideoShell.Extension.YaoShe92
 {
-    [Export(typeof(IDataSource<Video>))]
-    public class YaoShe92DataStore : IDataSource<Video>
+    [WebMetadata("YaoShe92", "https://yaoshe92.com/latest-updates/")]
+    public class YaoShe92DataSource : IDataSource<Video>
     {
         List<Video> videos;
-
-        public YaoShe92DataStore()
+        readonly string webUrl;
+        public YaoShe92DataSource()
         {
-
+            webUrl = WebInstance.Url;
         }
         public async Task<IEnumerable<Video>> GetItemsAsync(bool forceRefresh = false)
         {
             if (forceRefresh || videos == null)
-                videos = await GetDataAsync("https://yaoshe92.com/latest-updates/");
+                videos = await GetDataAsync(webUrl);
             return await Task.FromResult(videos);
         }
         public async Task<string> GetTrueVideoUrl(string url)
@@ -43,8 +44,6 @@ namespace VideoShell.Extension.YaoShe92
             }
             else
                 return trueVideoUrl;
-
-
         }
         private async Task<List<Video>> GetDataAsync(string uri)
         {
