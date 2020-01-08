@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using VideoShell.Models;
 using VideoShell.ViewModels.Base;
-using VideoShell.Extension.Abstraction;
+using VideoShell.Extensions.Abstraction;
 using System.Composition;
-using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction.Models;
 using System.Composition.Hosting;
 using System.Reflection;
 using VideoShell.Extensions.Abstraction;

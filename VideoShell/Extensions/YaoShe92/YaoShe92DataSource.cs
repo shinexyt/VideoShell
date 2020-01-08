@@ -1,22 +1,15 @@
-﻿using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.XPath;
-using VideoShell.Extension.Abstraction;
-using VideoShell.Extension.Abstraction.Models;
 using VideoShell.Extensions.Abstraction;
+using VideoShell.Extensions.Abstraction.Models;
 
-namespace VideoShell.Extension.YaoShe92
+namespace VideoShell.Extensions.YaoShe92
 {
-    [WebMetadata("YaoShe92", "https://yaoshe92.com/latest-updates/")]
+    [ExportWithMetadata("YaoShe92", "https://ppx144.com/latest-updates/")]
     public class YaoShe92DataSource : IDataSource<Video>
     {
         List<Video> videos;
@@ -59,7 +52,7 @@ namespace VideoShell.Extension.YaoShe92
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("\tERROR {0}", ex.Message);
+                Debug.WriteLine("\tERROR {0}", ex);
             }
 
             return list;

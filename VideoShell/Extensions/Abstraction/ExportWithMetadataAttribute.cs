@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Composition;
 using System.Text;
-using VideoShell.Extension.Abstraction;
-using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction;
+using VideoShell.Extensions.Abstraction.Models;
 
 namespace VideoShell.Extensions.Abstraction
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class WebMetadataAttribute : ExportAttribute, IWebMetadata
+    public class ExportWithMetadataAttribute : ExportAttribute, IWebMetadata
     {
-        public WebMetadataAttribute(string name, string defaultUrl) : base(typeof(IDataSource<Video>))
+        public ExportWithMetadataAttribute(string name, string defaultUrl) : base(typeof(IDataSource<Video>))
         {
             Name = name;
             DefaultUrl = defaultUrl;

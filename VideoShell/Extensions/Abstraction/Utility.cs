@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VideoShell.Extension.Abstraction
+namespace VideoShell.Extensions.Abstraction
 {
     public static class Utility
     {

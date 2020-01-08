@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace VideoShell.Extension.Abstraction
+namespace VideoShell.Extensions.Abstraction
 {
     public interface IDataSource<T>
     {

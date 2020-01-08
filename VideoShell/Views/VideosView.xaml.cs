@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 using VideoShell.Models;
 using VideoShell.Views;
 using VideoShell.ViewModels;
-using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction.Models;
 
 namespace VideoShell.Views
 {

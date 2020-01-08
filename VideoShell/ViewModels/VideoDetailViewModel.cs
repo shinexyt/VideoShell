@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction.Models;
 using VideoShell.Models;
 using VideoShell.Services;
 using VideoShell.ViewModels.Base;

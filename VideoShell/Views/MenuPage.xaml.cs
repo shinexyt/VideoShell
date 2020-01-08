@@ -6,10 +6,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Composition.Hosting;
 using System.Reflection;
-using VideoShell.Extension.Abstraction;
-using VideoShell.Extension.Abstraction.Models;
-using System.Composition;
 using VideoShell.Extensions.Abstraction;
+using VideoShell.Extensions.Abstraction.Models;
+using System.Composition;
+using System.Linq;
 
 namespace VideoShell.Views
 {
@@ -19,40 +19,30 @@ namespace VideoShell.Views
     public partial class MenuPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
-        List<HomeMenuItem> menuItems;
-
-        [ImportMany]
-        public IEnumerable<Lazy<IDataSource<Video>, WebMetadataModel>> DataSources { get; set; }
-
+        //List<HomeMenuItem> menuItems;
         public MenuPage()
         {
             InitializeComponent();
-            using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
-            {
-                host.SatisfyImports(this);
-            }
-            foreach (var item in DataSources)
-            {
-                WebInstance.Url = item.Metadata.DefaultUrl;
-                WebInstance.DataSource = item.Value;
-            }
-            menuItems = new List<HomeMenuItem>
-            {
-                new HomeMenuItem {Id = MenuItemType.Videos, Title="Latest Videos" },
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
-            };
+            List<VideoSourceItem> videoSources = Application.Current.Properties["VideoSourceList"] as List<VideoSourceItem>;
+           
+            //menuItems = new List<HomeMenuItem>
+            //{
+            //    new HomeMenuItem {Id = MenuItemType.Videos, Title="Latest Videos" },
+            //    new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
+            //    new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+            //};
 
-            ListViewMenu.ItemsSource = menuItems;
+            ListViewMenu.ItemsSource = videoSources;
 
-            ListViewMenu.SelectedItem = menuItems[0];
+            ListViewMenu.SelectedItem = videoSources[0];
+            
+            WebInstance.Url = videoSources[0].Url;
+            WebInstance.DataSource = WebInstance.DataSources.ElementAt(0).Value;
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (e.SelectedItem == null)
                     return;
-
-                var id = (int)((HomeMenuItem)e.SelectedItem).Id;
-                await RootPage.NavigateFromMenu(id);
+                WebInstance.Url = ((VideoSourceItem)e.SelectedItem).Url;
             };
         }
     }

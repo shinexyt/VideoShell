@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Composition;
 using System.Text;
-using VideoShell.Extension.Abstraction;
-using VideoShell.Extension.Abstraction.Models;
+using VideoShell.Extensions.Abstraction;
+using VideoShell.Extensions.Abstraction.Models;
 
 namespace VideoShell.Extensions.Abstraction
 {
