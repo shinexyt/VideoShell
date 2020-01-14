@@ -13,50 +13,39 @@ using VideoShell.Extensions.Abstraction.Models;
 using VideoShell.Extensions.Abstraction;
 using System.Collections.Generic;
 using VideoShell.Models;
+using VideoShell.Database;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace VideoShell
 {
     public partial class App : Application
     {
-        //[ImportMany]
-        //public IEnumerable<Lazy<IDataSource<Video>, WebMetadataModel>> DataSources { get; set; }
+        static VideoSourceDatabase database;
         public App()
         {
             InitializeComponent();
-
-           
+            new WebInstance().Initialize();
+            MainPage = new MainPage();
         }
-
-        protected override async void OnStart()
+        public static VideoSourceDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new VideoSourceDatabase();
+                }
+                return database;
+            }
+        }
+        protected override void OnStart()
         {
             
-            await new WebInstance().Initialize();
-            MainPage = new MainPage();
-            //using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
-            //{
-            //    host.SatisfyImports(this);
-            //}
-            //var videoSourceList = new List<VideoSourceItem>();
-            //foreach (var item in DataSources)
-            //{
-            //    videoSourceList.Add(new VideoSourceItem
-            //    {
-            //        Url = item.Metadata.DefaultUrl,
-            //        Name = item.Metadata.Name,
-            //        IsDefaultUrl = true
-            //    });
-            //    //WebInstance.Url = item.Metadata.DefaultUrl;
-            //    //WebInstance.DataSource = item.Value;
-            //}
-
-            //Application.Current.Properties.Add("VideoSourceList", videoSourceList);
-            //await Application.Current.SavePropertiesAsync();
         }
-
         protected override void OnSleep()
         {
         }
-
         protected override void OnResume()
         {
         }

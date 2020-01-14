@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Composition;
 using System.Composition.Hosting;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,37 +20,33 @@ namespace VideoShell.Extensions.Abstraction
     {
         //TODO: Need refactor
         public static IDataSource<Video> DataSource { get; set; }
+        public static List<VideoSourceItem> VideoSources { get; private set; }
         [ImportMany]
         public static IEnumerable<Lazy<IDataSource<Video>, WebMetadataModel>> DataSources { get; set; }
         public static string Url { get; set; }
-        public async Task Initialize()
+        public void Initialize()
         {
             using (var host = new ContainerConfiguration().WithAssembly(Assembly.GetExecutingAssembly()).CreateContainer())
             {
                 host.SatisfyImports(this);
             }
-            //TODO: Properties only use base type, so this will be instead by using sqlite.
-            if (!Application.Current.Properties.ContainsKey("VideoSourceList"))
+            int localDataItems = App.Database.GetItemsCountAsync().Result;
+            if (localDataItems == 0)
             {
-                System.Diagnostics.Debug.WriteLine("Write Properties");
-                var videoSourceList = new List<VideoSourceItem>();
                 foreach (var item in DataSources)
                 {
-                    videoSourceList.Add(new VideoSourceItem
+                    var videoSourceItem = new VideoSourceItem
                     {
                         Url = item.Metadata.DefaultUrl,
                         Name = item.Metadata.Name,
                         IsDefaultUrl = true
-                    });
+                    };
+                   App.Database.SaveItemAsync(videoSourceItem);
                 }
-
-                Application.Current.Properties.Add("VideoSourceList", videoSourceList);
-                await Application.Current.SavePropertiesAsync();
             }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine("Read Properties");;
-            }
+            VideoSources = App.Database.GetItemsAsync().Result;
+            WebInstance.Url = VideoSources[0].Url;
+            WebInstance.DataSource = WebInstance.DataSources.ElementAt(0).Value;
         }
     }
 }

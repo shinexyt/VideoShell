@@ -1,13 +1,15 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace VideoShell.Models
 {
-    class VideoSourceItem
+    public class VideoSourceItem
     {
-        internal string Url { get; set; }
-        internal string Name { get; set; }
-        internal bool IsDefaultUrl { get; set; }
+        [PrimaryKey]
+        public string Url { get; set; }
+        public string Name { get; set; }
+        public bool IsDefaultUrl { get; set; }
     }
 }
