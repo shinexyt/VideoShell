@@ -29,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\NewUrlView.xaml.cs">
+      <DependentUpon>NewUrlView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\VideoDetailPage.xaml.cs">
       <DependentUpon>VideoDetailPage.xaml</DependentUpon>
     </Compile>

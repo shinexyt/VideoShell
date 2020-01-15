@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Composition;
 using System.Composition.Hosting;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace VideoShell.Extensions.Abstraction
     {
         //TODO: Need refactor
         public static IDataSource<Video> DataSource { get; set; }
-        public static List<VideoSourceItem> VideoSources { get; private set; }
+        public static ObservableCollection<VideoSourceItem> VideoSources { get; set; }
         [ImportMany]
         public static IEnumerable<Lazy<IDataSource<Video>, WebMetadataModel>> DataSources { get; set; }
         public static string Url { get; set; }
@@ -41,12 +42,18 @@ namespace VideoShell.Extensions.Abstraction
                         Name = item.Metadata.Name,
                         IsDefaultUrl = true
                     };
-                   App.Database.SaveItemAsync(videoSourceItem);
+                    App.Database.SaveItemAsync(videoSourceItem);
                 }
             }
-            VideoSources = App.Database.GetItemsAsync().Result;
-            WebInstance.Url = VideoSources[0].Url;
-            WebInstance.DataSource = WebInstance.DataSources.ElementAt(0).Value;
+            VideoSources = new ObservableCollection<VideoSourceItem>(App.Database.GetItemsAsync().Result);
+            var selectedItemIndex = 0;
+            if (Application.Current.Properties.ContainsKey("SelectedItemIndex"))
+            {
+                selectedItemIndex = (int)Application.Current.Properties["SelectedItemIndex"];
+            }
+            var currentVideoSource = VideoSources[selectedItemIndex];
+            WebInstance.Url = currentVideoSource.Url;
+            WebInstance.DataSource = WebInstance.DataSources.FirstOrDefault(d => d.Metadata.Name == currentVideoSource.Name).Value;
         }
     }
 }

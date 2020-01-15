@@ -20,31 +20,37 @@ namespace VideoShell.Views
         public MenuPage()
         {
             InitializeComponent();
-            
+            MessagingCenter.Subscribe<NewUrlView, VideoSourceItem>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as VideoSourceItem;
+                WebInstance.VideoSources.Add(newItem);
+                await App.Database.SaveItemAsync(newItem);
+            });
         }
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            
-
-            //menuItems = new List<HomeMenuItem>
-            //{
-            //    new HomeMenuItem {Id = MenuItemType.Videos, Title="Latest Videos" },
-            //    new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-            //    new HomeMenuItem {Id = MenuItemType.About, Title="About" }
-            //};
 
             ListViewMenu.ItemsSource = WebInstance.VideoSources;
-
-            ListViewMenu.SelectedItem = WebInstance.VideoSources[0];
-
-            
+            var selectedItemIndex = 0;
+            if (Application.Current.Properties.ContainsKey("SelectedItemIndex"))
+            {
+                selectedItemIndex = (int)Application.Current.Properties["SelectedItemIndex"];
+            }
+            ListViewMenu.SelectedItem = WebInstance.VideoSources[selectedItemIndex];
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (e.SelectedItem == null)
                     return;
-                WebInstance.Url = ((VideoSourceItem)e.SelectedItem).Url;
+                Application.Current.Properties["SelectedItemIndex"] = e.SelectedItemIndex;
+                await Application.Current.SavePropertiesAsync();
+                //WebInstance.Url = ((VideoSourceItem)e.SelectedItem).Url;
             };
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new NewUrlView()));
         }
     }
 }

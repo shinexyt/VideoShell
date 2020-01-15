@@ -20,12 +20,13 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
-                            <Label Text="{Binding Name}" d:Text="{Binding .}" FontSize="20"/>
+                            <Label Text="{Binding Url}" d:Text="{Binding .}" FontSize="20"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Text="Add Url" Clicked="Button_Clicked"/>
     </StackLayout>
 
 </ContentPage>
