@@ -20,7 +20,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
-                            <Label Text="{Binding Url}" d:Text="{Binding .}" FontSize="20"/>
+                            <Label Text="{Binding Url}" d:Text="{Binding .}" FontSize="Medium"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

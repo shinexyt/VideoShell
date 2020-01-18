@@ -22,23 +22,32 @@ namespace VideoShell.ViewModels
         {
             Title = "Latest Video";
             Videos = new ObservableCollection<Video>();
-            LoadVideosCommand = new Command(async () => await ExecuteLoadVideosCommand());
+            LoadVideosCommand = new Command(async (forceRefresh) =>
+            {
+                if (forceRefresh == null)
+                    await ExecuteLoadVideosCommand();
+                else
+                    await ExecuteLoadVideosCommand(Boolean.Parse(forceRefresh.ToString()));
+            });
+
+            MessagingCenter.Subscribe<MenuPage>(this, "ChangeSource", async (obj) =>
+            {
+                ExecuteLoadVideosCommand();
+            });
         }
 
-        async Task ExecuteLoadVideosCommand()
+        async Task ExecuteLoadVideosCommand(bool forceRefresh = true)
         {
-            if (Videos.Count > 0)
-                return;
-
             if (IsBusy)
+                return;
+            if (!forceRefresh && Videos.Count > 0)
                 return;
 
             IsBusy = true;
-
             try
             {
                 Videos.Clear();
-                var items = await DataSource.GetItemsAsync(false);
+                var items = await DataSource.GetItemsAsync();
                 foreach (var item in items)
                 {
                     Videos.Add(item);

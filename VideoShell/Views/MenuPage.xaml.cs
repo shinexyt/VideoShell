@@ -44,7 +44,12 @@ namespace VideoShell.Views
                     return;
                 Application.Current.Properties["SelectedItemIndex"] = e.SelectedItemIndex;
                 await Application.Current.SavePropertiesAsync();
-                //WebInstance.Url = ((VideoSourceItem)e.SelectedItem).Url;
+
+                var videoSourceItem = e.SelectedItem as VideoSourceItem;
+                WebInstance.Url = videoSourceItem.Url;
+                WebInstance.DataSource = WebInstance.DataSources.FirstOrDefault(d => d.Metadata.Name == videoSourceItem.Name).Value;
+
+                MessagingCenter.Send(this, "ChangeSource");
             };
         }
 

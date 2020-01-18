@@ -6,7 +6,7 @@ namespace VideoShell.Extensions.Abstraction
 {
     public interface IDataSource<T>
     {
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<IEnumerable<T>> GetItemsAsync();
         Task<string> GetTrueVideoUrl(string url);
     }
 }

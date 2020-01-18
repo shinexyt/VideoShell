@@ -16,7 +16,7 @@
                 ItemsSource="{Binding Videos}"
                 VerticalOptions="FillAndExpand"
                 HasUnevenRows="true"
-                RefreshCommand="{Binding LoadItemsCommand}"
+                RefreshCommand="{Binding LoadVideosCommand}"
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 CachingStrategy="RecycleElement"
@@ -43,6 +43,6 @@
         </ListView>
     </StackLayout>
     <ContentPage.Behaviors>
-        <behaviors:EventToCommandBehavior EventName="Appearing"	Command="{Binding LoadVideosCommand}" />
+        <behaviors:EventToCommandBehavior EventName="Appearing"	Command="{Binding LoadVideosCommand}" CommandParameter="False" />
     </ContentPage.Behaviors>
 </ContentPage>

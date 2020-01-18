@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VideoShell.Caching;
 using VideoShell.Extensions.Abstraction;
 using VideoShell.Extensions.Abstraction.Models;
 
@@ -13,37 +13,29 @@ namespace VideoShell.Extensions.YaoShe92
     public class YaoShe92DataSource : IDataSource<Video>
     {
         List<Video> videos;
-        readonly string webUrl;
-        public YaoShe92DataSource()
+        public async Task<IEnumerable<Video>> GetItemsAsync()
         {
-            webUrl = WebInstance.Url;
-        }
-        public async Task<IEnumerable<Video>> GetItemsAsync(bool forceRefresh = false)
-        {
-            if (forceRefresh || videos == null)
-                videos = await GetDataAsync(webUrl);
+            videos = await GetDataAsync(WebInstance.Url);
             return await Task.FromResult(videos);
         }
         public async Task<string> GetTrueVideoUrl(string url)
         {
-            ObjectCache cache = MemoryCache.Default;
-            string trueVideoUrl = cache[url] as string;
+            var cache = MemoryCache.Default;
+            var trueVideoUrl = cache[url] as string;
             if (trueVideoUrl == null)
             {
-                var doc = await Utility.HtmlWeb.LoadFromWebAsync(url.Replace("videos", "embed"));
+                var doc = await App.HtmlWeb.LoadFromWebAsync(url.Replace("videos", "embed"));
                 trueVideoUrl = Regex.Match(doc.DocumentNode.InnerHtml, @"https.*embed=true").Value;
-                cache.Set(url, trueVideoUrl, new CacheItemPolicy());
-                return trueVideoUrl;
+                cache[url] = trueVideoUrl;
             }
-            else
-                return trueVideoUrl;
+            return trueVideoUrl;
         }
         private async Task<List<Video>> GetDataAsync(string uri)
         {
             var list = new List<Video>();
             try
             {
-                var doc = await Utility.HtmlWeb.LoadFromWebAsync(uri);
+                var doc = await App.HtmlWeb.LoadFromWebAsync(uri);
                 var nodes = doc.DocumentNode.SelectNodes("//div[@class='list-videos']//div[@class='item  ']/a");
                 foreach (var item in nodes)
                 {
