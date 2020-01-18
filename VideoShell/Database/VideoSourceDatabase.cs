@@ -54,14 +54,14 @@ namespace VideoShell.Database
 
         public async Task<int> SaveItemAsync(VideoSourceItem item)
         {
-            var videoSourceItem =await Database.Table<VideoSourceItem>().FirstOrDefaultAsync(i => i.Url == item.Url);
+            var videoSourceItem = Database.Table<VideoSourceItem>().FirstOrDefaultAsync(i => i.Url == item.Url).Result;
             if (videoSourceItem != null)
             {
-                return await Database.UpdateAsync(item);
+                return  Database.UpdateAsync(item).Result;
             }
             else
             {
-                return await Database.InsertAsync(item);
+                return  Database.InsertAsync(item).Result;
             }
         }
 
