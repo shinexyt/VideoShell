@@ -16,12 +16,14 @@ using VideoShell.Models;
 using VideoShell.Database;
 using System.Threading.Tasks;
 using System.Threading;
+using HtmlAgilityPack;
 
 namespace VideoShell
 {
     public partial class App : Application
     {
         static VideoSourceDatabase database;
+        static HtmlWeb htmlWeb;
         public App()
         {
             InitializeComponent();
@@ -39,9 +41,20 @@ namespace VideoShell
                 return database;
             }
         }
+        public static HtmlWeb HtmlWeb
+        {
+            get
+            {
+                if (htmlWeb == null)
+                {
+                    htmlWeb = new HtmlWeb();
+                }
+                return htmlWeb;
+            }
+        }
         protected override void OnStart()
         {
-            
+
         }
         protected override void OnSleep()
         {
