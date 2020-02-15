@@ -37,6 +37,12 @@ namespace VideoShell.Extensions.YaoShe92
             {
                 var doc = await App.HtmlWeb.LoadFromWebAsync(uri);
                 var nodes = doc.DocumentNode.SelectNodes("//div[@class='list-videos']//div[@class='item  ']/a");
+                if (nodes == null)
+                {
+                    var newUrl = doc.DocumentNode.SelectSingleNode("/html/body/div/div/div[4]/div[2]/a").Attributes["href"].Value;
+                    doc = await App.HtmlWeb.LoadFromWebAsync(newUrl);
+                    nodes = doc.DocumentNode.SelectNodes("//div[@class='list-videos']//div[@class='item  ']/a");
+                }
                 foreach (var item in nodes)
                 {
                     list.Add(new Video { Title = item.Attributes["title"].Value, ImageUrl = item.SelectSingleNode(".//img").Attributes["data-original"].Value, VideoUrl = item.Attributes["href"].Value, ExtraInformation = item.SelectSingleNode(".//div[@class='duration']").InnerText + " " + item.SelectSingleNode(".//div[@class='added']/em").InnerText });
