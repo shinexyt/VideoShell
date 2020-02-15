@@ -1,4 +1,5 @@
-﻿using FormsVideoLibrary;
+﻿using Acr.UserDialogs;
+using FormsVideoLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,18 @@ namespace VideoShell.Views
             InitializeComponent();
             BindingContext = viewModel = videoDetail;
         }
+
+        private void VideoView_UpdateStatus(object sender, EventArgs e)
+        {
+            var videoPlayer = sender as VideoPlayer;
+            var status = videoPlayer.Status;
+            if (status == VideoStatus.Playing)
+            {
+                UserDialogs.Instance.HideLoading();
+                videoView.UpdateStatus -= VideoView_UpdateStatus;
+            }
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -28,6 +41,9 @@ namespace VideoShell.Views
             {
                 NavigationPage.SetHasNavigationBar(this, false);
                 DependencyService.Get<IStatusBar>().HideStatusBar();
+
+                UserDialogs.Instance.ShowLoading("Loading...");
+                videoView.UpdateStatus += VideoView_UpdateStatus;
             }
         }
         protected override void OnDisappearing()
@@ -37,6 +53,7 @@ namespace VideoShell.Views
             {
                 DependencyService.Get<IStatusBar>().ShowStatusBar();
             }
+
         }
     }
 }

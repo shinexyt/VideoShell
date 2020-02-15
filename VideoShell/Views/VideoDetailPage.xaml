@@ -5,6 +5,6 @@
              x:Class="VideoShell.Views.VideoDetailPage"
              Title="{Binding Title}">
 
-    <video:VideoPlayer Source="{Binding VideoUrl}" />
+    <video:VideoPlayer Source="{Binding VideoUrl}" BackgroundColor="Black" x:Name="videoView" />
 
 </ContentPage>
