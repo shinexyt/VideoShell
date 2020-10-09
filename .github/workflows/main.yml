@@ -4,11 +4,21 @@ on: [push, pull_request]
 
 jobs:
       
-  sln:
+   Android:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
-    - name: SLN
+    - name: Android
       run: |
         nuget restore
-        msbuild VideoShell.sln /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        cd VideoShell.Android
+        msbuild VideoShell.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        
+   UWP:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: UWP
+      run: |
+        nuget restore
+        msbuild VideoShell.UWP/VideoShell.UWP.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
