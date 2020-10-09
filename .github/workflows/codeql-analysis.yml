@@ -57,7 +57,7 @@ jobs:
     #  uses: github/codeql-action/autobuild@v1
       run: |
         nuget restore
-        msbuild VideoShell.sln /verbosity:normal /t:Rebuild /p:Configuration=Debug
+        msbuild VideoShell/VideoShell.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
