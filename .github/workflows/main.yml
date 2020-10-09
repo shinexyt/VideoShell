@@ -37,6 +37,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: UWP
       run: |
-        cd ..
+        cd ..\VideoShell.UWP
         nuget restore
         msbuild VideoShell.UWP/VideoShell.UWP.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
