@@ -15,7 +15,7 @@ jobs:
         msbuild VideoShell.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
   uwp:
-    runs-on:ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: UWP
