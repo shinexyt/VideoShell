@@ -60,7 +60,7 @@ jobs:
 
     - run: |
        nuget restore
-       msbuild VideoShell/VideoShell.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+       msbuild VideoShell/VideoShell.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug /p:UseSharedCompilation=false
 
 
     - name: Perform CodeQL Analysis
