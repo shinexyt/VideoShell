@@ -30,7 +30,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
       with:
         # We must fetch at least the immediate parents so that if this is
         # a pull request then we can checkout the head.
@@ -51,14 +51,6 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-    #  uses: github/codeql-action/autobuild@v1
-      run: |
-        nuget restore
-        msbuild VideoShell/VideoShell.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
-
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
 
@@ -66,9 +58,10 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    #- run: |
-    #   make bootstrap
-    #   make release
+    - run: |
+       nuget restore
+       msbuild VideoShell/VideoShell.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
+
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
