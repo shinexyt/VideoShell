@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
       
   Android:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Android
@@ -15,11 +15,11 @@ jobs:
         msbuild VideoShell.Android.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
         
   uwp:
-    runs-on: macos-latest
+    runs-on:ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: UWP
       run: |
-        cd ../VideoShell.UWP
+        cd ..
         nuget restore
         msbuild VideoShell.UWP/VideoShell.UWP.csproj /verbosity:normal /t:Rebuild /p:Configuration=Debug
