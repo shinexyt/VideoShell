@@ -51,10 +51,15 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    - name: Generate Xamarin Form Android APK
+      # You may pin to the exact commit or the version.
+      # uses: fahimshahrierrasel/Xamarin-Droid-Builder@3b0a1d8692d8ca70d3811f4f79743551da24cc60
+      uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
+      with:
+        # Solution Name or the root folder name.
+        SOLUTION_NAME: VideoShell
+        # Android Project name or the folder name of the android project usually its end with .Android as postfix.
+        ANDROID_PROJECT_NAME: VideoShell.Android
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
